@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, send_from_directory, jsonify
+from flask import Flask, render_template, request, send_from_directory, jsonify, send_file
 import os
 import yt_dlp
 
@@ -13,7 +13,7 @@ if not os.path.exists(DOWNLOAD_FOLDER):
 def home():
     return render_template('index.html')
 
-@app.route('/download', methods=['POST'])
+@app.route('/api/download', methods=['POST'])
 def download_video():
     video_url = request.form['url']  # Get the video URL from the form
     resolution = request.form['resolution']  # Get the desired resolution from the form
@@ -31,10 +31,7 @@ def download_video():
         # Get the downloaded file name
         downloaded_file = os.path.join(DOWNLOAD_FOLDER, f"{ydl.prepare_filename(ydl.extract_info(video_url))}")
         
-        return jsonify({
-            'status': 'success',
-            'file_url': f"/download/{os.path.basename(downloaded_file)}"  # Return the file URL
-        })
+        return send_file(downloaded_file, as_attachment=True)
     except Exception as e:
         return jsonify({'status': 'error', 'message': str(e)})  # Return error if any
 
