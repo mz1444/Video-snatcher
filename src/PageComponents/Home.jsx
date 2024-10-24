@@ -8,8 +8,9 @@ const Home = () => {
   return ( 
     <div>
         <Header />
-        <InputField />
         <Cards />
+        <InputField />
+       
         <Footer />
     </div>
   );

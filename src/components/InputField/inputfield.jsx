@@ -20,8 +20,8 @@ const InputField = () => {
         <div className="relative w-1/2">
           <input 
             rows="2" 
-            className="border-8 border-gray-300 rounded-full p-2 pl-10 pr-20 w-full" 
-            placeholder="Enter text here" 
+            className="border- border-gray-300 rounded-full p-2 pl-10 pr-20 w-full" 
+            placeholder="Enter kjsdabjbdfou text here" 
           ></input>
           <Button label="Search" className="absolute rounded-full right-4 top-1/2 transform -translate-y-1/2 px-6" onClick={handleSearchClick} />
           
