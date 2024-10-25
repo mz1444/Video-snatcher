@@ -1,11 +1,11 @@
-from flask import Flask, render_template, request, send_from_directory, jsonify, send_file
+from flask import Flask, render_template, request, send_file, jsonify
 import os
 import yt_dlp
 
 app = Flask(__name__)
 
-# Set the folder for storing the downloaded videos
-DOWNLOAD_FOLDER = '/home/saad/Downloads'  # Updated to the specified path
+# Automatically detect the user's default download folder
+DOWNLOAD_FOLDER = os.path.join(os.path.expanduser('~'), 'Downloads')
 if not os.path.exists(DOWNLOAD_FOLDER):
     os.makedirs(DOWNLOAD_FOLDER)
 
@@ -15,12 +15,12 @@ def home():
 
 @app.route('/api/download', methods=['POST'])
 def download_video():
-    video_url = request.form['url']  # Get the video URL from the form
-    resolution = request.form['resolution']  # Get the desired resolution from the form
+    video_url = request.form['url']
+    resolution = request.form['resolution']
     try:
         ydl_opts = {
-            'format': f'bestvideo[height<={resolution}]+bestaudio/best',  # Use the specified resolution
-            'outtmpl': os.path.join(DOWNLOAD_FOLDER, '%(title)s.%(ext)s'),  # Save with title
+            'format': f'bestvideo[height<={resolution}]+bestaudio/best',
+            'outtmpl': os.path.join(DOWNLOAD_FOLDER, '%(title)s.%(ext)s'),
             'headers': {
                 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3'
             }
@@ -28,12 +28,11 @@ def download_video():
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
             ydl.download([video_url])
         
-        # Get the downloaded file name
         downloaded_file = os.path.join(DOWNLOAD_FOLDER, f"{ydl.prepare_filename(ydl.extract_info(video_url))}")
         
         return send_file(downloaded_file, as_attachment=True)
     except Exception as e:
-        return jsonify({'status': 'error', 'message': str(e)})  # Return error if any
+        return jsonify({'status': 'error', 'message': str(e)})
 
 @app.route('/hello')
 def hello():
