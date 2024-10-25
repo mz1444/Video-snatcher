@@ -1,0 +1,5 @@
+Flask==3.0.3
+PyPDF2==2.12.1
+pytube==15.0.0
+youtube-dl==2021.12.17
+yt-dlp==2024.10.22
