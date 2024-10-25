@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { Link } from 'react-router-dom';
-import InputField from '../../components/InputField/inputfield'; // Adjust the import path as necessary
+import InputField from '../../components/InputField/inputfield'; 
 
 const Header = () => {
   const Navbar = () => {
@@ -33,7 +33,7 @@ const Header = () => {
         <h1 className="text-4xl font-bold ">Welcome to Video Snatcher</h1> 
         <p className="text-lg pt-5">Snatch your videos effortlessly</p>
         <div className="mt-10 w-full flex justify-center">
-          <InputField />
+          <InputField className="w-4/5" />
         </div>
       </div>
     </div>
